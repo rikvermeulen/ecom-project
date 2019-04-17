@@ -1,7 +1,7 @@
 @extends ('layout')
 @section('pageTitle', 'Home')
 
-<script src="https://js.stripe.com/v3/"></script>
+<script src="https://js.stripe.com/v3/"></script>{{--js voor payment methode--}}
 
 @section ('content')
 
@@ -12,17 +12,17 @@
     </div>
     <main>
         <div class="checkout">
-                    <form action="{{ route('checkout.store') }}" method="post" id="payment-form" class="checkout-form">
+                    <form action="{{ route('checkout.store') }}" method="post" id="payment-form" class="checkout-form">{{--form voor gegevens checkout en betaling -controller checkout--}}
                     {{csrf_field()}}
                         <div class="checkout-wrap">
                             @if (session()->has('success_message'))
                                 <div class="spacer"></div>
                                 <div class="alert alert-success">
-                                    {{ session()->get('success_message') }}
+                                    {{ session()->get('success_message') }}{{--succes message als geslaagd zie controller --}}
                                 </div>
                             @endif
 
-                            @if(count($errors) > 0)
+                            @if(count($errors) > 0){{--als error hoger dan 0 display error zie controller--}}
                                 <div class="spacer"></div>
                                 <div class="alert alert-danger">
                                     <ul>
@@ -73,6 +73,7 @@
                                         </div>
                                     </div>
                                     <div class="form-section">
+                                        {{--data betaling creditcard voor betaling--}}
                                         <div class="form-group">
                                             <p>payment</p>
                                             <label for="card-element">
@@ -81,15 +82,16 @@
                                             <div id="card-element">
                                         <!-- A Stripe Element will be inserted here. -->
                                     </div>
-                                            <!-- Used to display form errors. -->
+                                            <!-- display error voor user. -->
                                             <div id="card-errors" role="alert"></div>
                                         </div>
                                     </div>
+                                    {{--display elk item in cart wat wordt betaald--}}
                                     <div class="form-section">
                                         <div class="form-group">
                                             <p>items in order</p>
                                             <div class="checkout-table">
-                                                @foreach (Cart::content() as $item)
+                                                @foreach (Cart::content() as $item) {{--voor elk item laat gegevens zien van db--}}
                                                     <div class="checkout-table-row">
                                                         <img src="{{ asset('storage/'.$item->model->image) }}" alt="item" class="checkout-table-img">
                                                         <div class="checkout-item-details">
@@ -106,20 +108,20 @@
                                 </div>
                             </div>
                             <div class="checkout-aside">
-                                <div class="checkout-totals">
+                                <div class="checkout-totals"> {{--berekend totale kosten items--}}
                                     <p>subtotal</p>
                                     {{ presentPrice(Cart::subtotal()) }}<br>
-                                    @if (session()->has('coupon'))
+                                    @if (session()->has('coupon')) {{--als sessie coupon heeft show coupon code en verkend korting--}}
 
                                         <p style="display: inline">discount</p>({{ session()->get('coupon')['name'] }})
                                         <form action="{{ route('coupon.destroy') }}" method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('delete') }}
-                                            <button type="submit">Remove</button>
+                                            <button type="submit">Remove</button> {{--verwijder discount - zie discount controller --}}
                                         </form>
-                                        {{ presentPrice($discount)}}
+                                        {{ presentPrice($discount)}} {{--display korting--}}
                                         <hr>
-                                        {{ presentPrice($newSubtotal) }}
+                                        {{ presentPrice($newSubtotal) }} {{--nieuw subtotal--}}
 
                                         <hr>
                                         <p>New subtotal</p>
@@ -133,17 +135,17 @@
 
                                     <hr>
                                 </div>
-                                <button type="submit" id="complete-order" class="button-primary">complete order</button>
+                                <button type="submit" id="complete-order" class="button-primary">complete order</button>{{--button complete order betaling wordt afgehandeld door stripe--}}
                             </div>
                         </div>
                     </form>
             <div class="checkout-coupon">
-                @if (! session()->has('coupon'))
+                @if (! session()->has('coupon')){{--als sessie heeft coupon--}}
                     <div class="coupon">
                         <form action="{{ route('coupon.store') }}" method="POST">
                             {{csrf_field()}}
-                            <input type="text" name="coupon_code" id="coupon_code">
-                            <button type="submit" >apply</button>
+                            <input type="text" name="coupon_code" id="coupon_code"> {{--input code--}}
+                            <button type="submit" >apply</button> {{--valideerd coupon code --}}
                         </form>
                     </div>
                 @endif
@@ -151,6 +153,8 @@
 
         </div>
     </main>
+
+    {{--js voor data naar stripe account voor betalings overzicht--}}
 
     <script>
         (function () {

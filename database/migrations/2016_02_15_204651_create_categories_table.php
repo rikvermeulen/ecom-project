@@ -1,5 +1,5 @@
 <?php
-
+/*database niet geschreven door mij - plugin voyager*/
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 

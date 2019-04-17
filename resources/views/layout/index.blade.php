@@ -26,7 +26,7 @@
         </section>
         <section>
             <div class="index-product">
-                @foreach ($products as $product)
+                @foreach ($products as $product) {{--voor elk product op home page display deze gegevens van db--}}
                     <div class="index-product-single">
                         <a href="{{ route('shop.show', $product->slug) }}">{{--<img src="{{ asset('images/product/'.$product->slug.'.jpg') }}" alt="">--}}</a>
                         <a class="home-product-name" href="{{ route('shop.show', $product->slug) }}">{{$product->name}}</a>

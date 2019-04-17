@@ -8,6 +8,7 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
+        /*collect alle db seeds voor seeding */
     {
         $this->call(CategoryTableSeeder::class);
         $this->call(ProductsTableSeeder::class);

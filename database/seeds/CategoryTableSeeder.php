@@ -13,7 +13,7 @@ class  CategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        $now = Carbon::now()->toDateTimeString();
+        $now = Carbon::now()->toDateTimeString();/*seed voor categorie*/
         Category::insert([
             ['name' => 'jacket', 'slug' => 'jacket', 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'long sleeve', 'slug' => 'longsleeve', 'created_at' => $now, 'updated_at' => $now],

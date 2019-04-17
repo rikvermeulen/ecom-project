@@ -1,4 +1,5 @@
 <?php
+/*database gegevens voor tussen tabel voor de meer op meer relatie tussen category en product */
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;

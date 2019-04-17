@@ -13,6 +13,7 @@ class ConfirmationController extends Controller
      */
     public function index()
     {
+        /*als checkout is geslaagd stuur door naar layout thankyou als error keer terug naar home page*/
         if (! session()->has('success_message')) {
             return redirect('/');
         }

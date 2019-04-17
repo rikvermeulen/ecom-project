@@ -8,7 +8,7 @@ class Coupon extends Model
 {
     public static function findByCode($code)
     {
-        return self::where('code', $code)->first(); /*pas code toe als code overheen komt in db*/
+        return self::where('code', $code)->first(); /*past code toe als code coupon overheen komt in db*/
     }
 
     public function discount($total)

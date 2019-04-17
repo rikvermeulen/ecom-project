@@ -15,8 +15,10 @@ class IndexPageController extends Controller
     public function index()
     {
         $products = Product::inRandomOrder()->take(8)->get();
+        /*laat in random order items op home pagina zien voor maxmimaal 8 producten total*/
 
         return view('layout.index')->with('products', $products);
+        /*return view met data items uit db*/
     }
 
     /**

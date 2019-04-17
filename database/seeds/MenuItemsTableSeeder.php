@@ -1,5 +1,5 @@
 <?php
-
+/*voyager seed voor admin page, niet geschreven door mij*/
 use Illuminate\Database\Seeder;
 use TCG\Voyager\Models\Menu;
 use TCG\Voyager\Models\MenuItem;

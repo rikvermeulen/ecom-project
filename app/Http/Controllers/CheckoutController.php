@@ -25,6 +25,7 @@ class CheckoutController extends Controller
             'newSubtotal' => $this->getNumbers()->get('newSubtotal'),
             'newTax' => $this->getNumbers()->get('newTax'),
             'newTotal' => $this->getNumbers()->get('newTotal'),
+           /*return view samen met deze data van cart in checkout*/
 
 
         ]);
@@ -52,28 +53,29 @@ class CheckoutController extends Controller
         $contents = Cart::content()->map(function ($item) {
             return $item->model->slug.', '.$item->qty;
         })->values()->toJson();
+        /*als item in checkout return data en hoeveelheid  */
 
         try {
           $charge = Stripe::charges()->create([
-              'amount' => $this->getNumbers()->get('newTotal') / 100,
-              'currency' => 'EUR',
-              'source' => $request->stripeToken,
+              'amount' => $this->getNumbers()->get('newTotal') / 100, /*price in centen gedeeld door 100*/
+              'currency' => 'EUR', /*valuta*/
+              'source' => $request->stripeToken, /*betaal api*/
               'description' => 'Order',
               'receipt_email' => $request->email,
               'metadata' => [
 
-                  'contents' => $contents,
-                  'discount' => collect(session()->get('coupon'))->toJson(),
-                  'quantity' => Cart::instance('default')->count(),
+                  'contents' => $contents, /*geeft order detials door aan stripe*/
+                  'discount' => collect(session()->get('coupon'))->toJson(), /*geeft order coupon door aan stripe*/
+                  'quantity' => Cart::instance('default')->count(), /*geeft order hoeveelheid door aan stripe*/
               ],
           ]);
 
-            Cart::instance('default')->destroy(); //maakt winkelmand leeg succesvole betaling
+            Cart::instance('default')->destroy(); //maakt winkelmand leeg na succesvole betaling
             session()->forget('coupon');
 
-            return redirect()->route('confirmation.index')->with('success_message', 'Thank you! Your payment has been successfully accepted!');
+            return redirect()->route('confirmation.index')->with('success_message', 'Thank you! Your payment has been successfully accepted!'); /*na correcte betaling haal data op uit controller confirmation*/
         } catch (CardErrorException $e) {
-            return back()->withErrors('Error! ' . $e->getMessage());
+            return back()->withErrors('Error! ' . $e->getMessage()); /*anders een error*/
         }
     }
 
