@@ -2,7 +2,7 @@
 
 Website Demo: [https://laravelecommerceexample.ca](https://laravelecommerceexample.ca). The demo has limited permissions. Install locally for full access.
 
-## Installation
+## Installatie
 
 1. Clone de repository en `cd` in root map
 1. `composer install`
