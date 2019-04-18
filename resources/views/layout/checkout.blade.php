@@ -14,24 +14,24 @@
         <div class="checkout">
                     <form action="{{ route('checkout.store') }}" method="post" id="payment-form" class="checkout-form">{{--form voor gegevens checkout en betaling -controller checkout--}}
                     {{csrf_field()}}
-                        <div class="checkout-wrap">
-                            @if (session()->has('success_message'))
-                                <div class="spacer"></div>
-                                <div class="alert alert-success">
-                                    {{ session()->get('success_message') }}{{--succes message als geslaagd zie controller --}}
-                                </div>
-                            @endif
+                        @if (session()->has('success_message'))
+                            <div class="spacer"></div>
+                            <div class="alert alert-success">
+                                {{ session()->get('success_message') }}{{--succes message als geslaagd zie controller --}}
+                            </div>
+                        @endif
 
-                            @if(count($errors) > 0){{--als error hoger dan 0 display error zie controller--}}
-                                <div class="spacer"></div>
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{!! $error !!}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                        @if(count($errors) > 0){{--als error hoger dan 0 display error zie controller--}}
+                        <div class="spacer"></div>
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{!! $error !!}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+                        <div class="checkout-wrap">
                             <div class="checkout-main">
                                 <div class="form-group">
                                     <div class="form-section">
@@ -111,23 +111,17 @@
                                 <div class="checkout-totals"> {{--berekend totale kosten items--}}
                                     <p>subtotal</p>
                                     {{ presentPrice(Cart::subtotal()) }}<br>
-                                    @if (session()->has('coupon')) {{--als sessie coupon heeft show coupon code en verkend korting--}}
-
-                                        <p style="display: inline">discount</p>({{ session()->get('coupon')['name'] }})
-                                        <form action="{{ route('coupon.destroy') }}" method="POST">
-                                            {{ csrf_field() }}
-                                            {{ method_field('delete') }}
-                                            <button type="submit">Remove</button> {{--verwijder discount - zie discount controller --}}
-                                        </form>
-                                        {{ presentPrice($discount)}} {{--display korting--}}
-                                        <hr>
-                                        {{ presentPrice($newSubtotal) }} {{--nieuw subtotal--}}
-
-                                        <hr>
-                                        <p>New subtotal</p>
-                                    @endif
                                     <p>tax(21%)</p>
                                     {{ presentPrice($newTax) }}<br>
+                                    @if (session()->has('coupon')) {{--als sessie coupon heeft show coupon code en verkend korting--}}
+
+                                    {{ presentPrice($discount)}} {{--display korting--}}
+                                    <hr>
+                                    {{ presentPrice($newSubtotal) }} {{--nieuw subtotal--}}
+
+                                    <hr>
+                                    <p>New subtotal</p>
+                                    @endif
                                     <div class="checkout-totals-total">
                                         <p>total</p>
                                         {{ presentPrice($newTotal) }}
@@ -149,6 +143,21 @@
                         </form>
                     </div>
                 @endif
+                    @if (session()->has('coupon')) {{--als sessie coupon heeft show coupon code en verkend korting--}}
+
+                    <p style="display: inline">discount</p>({{ session()->get('coupon')['name'] }})
+                    <form action="{{ route('coupon.destroy') }}" method="POST">
+                        {{ csrf_field() }}
+                        {{ method_field('delete') }}
+                        <button type="submit">Remove</button> {{--verwijder discount - zie discount controller --}}
+                    </form>
+                    {{--{{ presentPrice($discount)}} --}}{{--display korting--}}{{--
+                    <hr>
+                    {{ presentPrice($newSubtotal) }} --}}{{--nieuw subtotal--}}
+
+                    {{--<hr>
+                    <p>New subtotal</p>--}}
+                    @endif
             </div>
 
         </div>
