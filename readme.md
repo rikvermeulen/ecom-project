@@ -1,6 +1,6 @@
 # ecom-project-jaar-3-examen
 
-Website Demo ecom-project-jaar-3-examen The demo has limited permissions. Install locally for full access.
+Website Demo ecom-project-jaar-3-examen. installer lokaal voor complete toegang.
 
 ## Installatie
 
